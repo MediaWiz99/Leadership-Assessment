@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Imperatives Leadership Assessment</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .date-display {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .question-section {
+            margin: 40px 0;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: 30px -40px 20px -40px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .question {
+            background: #f8f9fa;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rating-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+
+        .rating-option:hover {
+            background: #e9ecef;
+        }
+
+        .rating-option input[type="radio"] {
+            margin-bottom: 8px;
+            transform: scale(1.2);
+        }
+
+        .rating-option label {
+            font-size: 0.85em;
+            text-align: center;
+            cursor: pointer;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .feedback-message {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            line-height: 1.4;
+            display: none;
+        }
+
+        .strength-message {
+            background: #e8f5e8;
+            color: #2d5016;
+            border-left: 4px solid #28a745;
+        }
+
+        .development-message {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tip-section {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .tip-section h5 {
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .tip-section p {
+            color: #1565c0;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        .button-group {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .results-summary {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .score-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .score-label {
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .score-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #0abde3);
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+
+        .insights {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .insights h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .insight-section {
+            margin-bottom: 25px;
+        }
+
+        .insight-section h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .insight-section ul {
+            margin-left: 20px;
+        }
+
+        .insight-section li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .action-plan {
+            background: #fff;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .action-plan h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .priority-item {
+            background: #f8f9ff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .priority-item h5 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .priority-item p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section-title {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding: 15px 20px;
+                font-size: 1.1em;
+            }
+
+            .rating-scale {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .rating-option {
+                min-width: 100%;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+
+            .rating-option input[type="radio"] {
+                margin-right: 15px;
+                margin-bottom: 0;
+            }
+
+            .score-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <h1>Three Imperatives Leadership Assessment</h1>
+            <p>Discover your strengths and areas for growth as a leader</p>
+        </div>
+
+        <div class="content">
+            <div id="assessmentForm">
+                <div class="form-group">
+                    <label for="studentName">Your Name:</label>
+                    <input type="text" id="studentName" name="studentName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Assessment Date:</label>
+                    <div class="date-display" id="currentDate"></div>
+                </div>
+
+                <div class="question-section">
+                    <div class="section-title">Manage Yourself</div>
+                    
+                    <div class="question">
+                        <h4>1. Do you use your formal authority effectively?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q1_1" name="q1" value="1">
+                                <label for="q1_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q1_2" name="q1" value="2">
+                                <label for="q1_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q1_3" name="q1" value="3">
+                                <label for="q1_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q1_4" name="q1" value="4">
+                                <label for="q1_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q1_5" name="q1" value="5">
+                                <label for="q1_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q1_strength">
+                            <strong>This is a strength if:</strong> You consider it a useful tool but not your primary means of influencing others. You make clear why you do what you do and share your authority when appropriate.
+                        </div>
+                        <div class="feedback-message development-message" id="q1_development">
+                            <strong>Area for development:</strong> Focus on using your formal authority as a leadership tool rather than relying on it as your primary influence method. Work on sharing authority appropriately.
+                        </div>
+                        <div class="tip-section" id="q1_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Effective leaders use authority as a last resort, not a first option. Try leading through influence, vision, and inspiration before relying on positional power. When you do use authority, explain the "why" behind your decisions to maintain trust and buy-in.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>2. Do you create thoughtful but not overly personal relationships?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q2_1" name="q2" value="1">
+                                <label for="q2_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q2_2" name="q2" value="2">
+                                <label for="q2_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q2_3" name="q2" value="3">
+                                <label for="q2_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q2_4" name="q2" value="4">
+                                <label for="q2_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q2_5" name="q2" value="5">
+                                <label for="q2_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q2_strength">
+                            <strong>This is a strength if:</strong> Your relationships are rich in human connections but always focused on the purpose and goals of the team and organization. You avoid trying to influence people by befriending them.
+                        </div>
+                        <div class="feedback-message development-message" id="q2_development">
+                            <strong>Area for development:</strong> Work on finding the right balance between building genuine human connections and maintaining appropriate professional boundaries.
+                        </div>
+                        <div class="tip-section" id="q2_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Professional warmth is key. Show genuine interest in your team members' growth and well-being while keeping conversations aligned with work objectives. Remember: you can care without becoming friends, and you can be friendly without being personal.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>3. Do others trust you as a manager?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q3_1" name="q3" value="1">
+                                <label for="q3_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q3_2" name="q3" value="2">
+                                <label for="q3_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q3_3" name="q3" value="3">
+                                <label for="q3_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q3_4" name="q3" value="4">
+                                <label for="q3_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q3_5" name="q3" value="5">
+                                <label for="q3_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q3_strength">
+                            <strong>This is a strength if:</strong> People, particularly your own, believe in your competence, intentions, and values. You demonstrate concern for their individual success.
+                        </div>
+                        <div class="feedback-message development-message" id="q3_development">
+                            <strong>Area for development:</strong> Focus on building trust through demonstrating both competence and character. Show genuine concern for your people's individual success.
+                        </div>
+                        <div class="tip-section" id="q3_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Trust is earned through consistent actions over time. Be reliable in your commitments, transparent in your communication, and demonstrate that you have your team's best interests at heart. When you make mistakes, own them quickly and learn publicly.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>4. Do you exercise your influence ethically?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q4_1" name="q4" value="1">
+                                <label for="q4_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q4_2" name="q4" value="2">
+                                <label for="q4_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q4_3" name="q4" value="3">
+                                <label for="q4_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q4_4" name="q4" value="4">
+                                <label for="q4_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q4_5" name="q4" value="5">
+                                <label for="q4_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q4_strength">
+                            <strong>This is a strength if:</strong> You consistently identify stakeholders, weigh their interests, and try to mitigate any harm that your actions may cause as you attempt to accomplish a greater good.
+                        </div>
+                        <div class="feedback-message development-message" id="q4_development">
+                            <strong>Area for development:</strong> Practice systematically considering all stakeholders affected by your decisions. Work on weighing different interests and minimizing harm.
+                        </div>
+                        <div class="tip-section" id="q4_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Before making important decisions, create a stakeholder map. Ask yourself: "Who will be affected by this decision?" and "How can I minimize negative impact while achieving the greater good?" Ethical leadership means considering long-term consequences, not just immediate results.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <div class="section-title">Manage Your Network</div>
+
+                    <div class="question">
+                        <h4>5. Do you systematically identify those who should be in your network?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q5_1" name="q5" value="1">
+                                <label for="q5_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q5_2" name="q5" value="2">
+                                <label for="q5_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q5_3" name="q5" value="3">
+                                <label for="q5_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q5_4" name="q5" value="4">
+                                <label for="q5_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q5_5" name="q5" value="5">
+                                <label for="q5_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q5_strength">
+                            <strong>This is a strength if:</strong> You are always aware of which people and groups you and your team depend on, and vice versa, as circumstances change.
+                        </div>
+                        <div class="feedback-message development-message" id="q5_development">
+                            <strong>Area for development:</strong> Create a systematic approach to mapping your stakeholder network. Regularly assess who you depend on and who depends on you.
+                        </div>
+                        <div class="tip-section" id="q5_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Create a network map quarterly. Include peers, superiors, customers, suppliers, and influencers. Ask: "Who can help me succeed?" and "Who needs my support to succeed?" Update this map as your role and responsibilities evolve.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>6. Do you proactively build and maintain your network?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q6_1" name="q6" value="1">
+                                <label for="q6_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q6_2" name="q6" value="2">
+                                <label for="q6_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q6_3" name="q6" value="3">
+                                <label for="q6_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q6_4" name="q6" value="4">
+                                <label for="q6_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q6_5" name="q6" value="5">
+                                <label for="q6_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q6_strength">
+                            <strong>This is a strength if:</strong> You create and sustain relationships with those in your network, connect frequently with them, and support their needs.
+                        </div>
+                        <div class="feedback-message development-message" id="q6_development">
+                            <strong>Area for development:</strong> Be more proactive about building and maintaining professional relationships. Schedule regular check-ins with key network members.
+                        </div>
+                        <div class="tip-section" id="q6_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Schedule monthly "relationship maintenance" time. Send updates, share relevant articles, or simply check in. Remember: networking is about giving value, not just receiving it. Look for ways to help others succeed, and they'll be more willing to help you.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>7. Do you use your network to provide the protection and resources your team needs?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q7_1" name="q7" value="1">
+                                <label for="q7_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q7_2" name="q7" value="2">
+                                <label for="q7_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q7_3" name="q7" value="3">
+                                <label for="q7_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q7_4" name="q7" value="4">
+                                <label for="q7_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q7_5" name="q7" value="5">
+                                <label for="q7_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q7_strength">
+                            <strong>This is a strength if:</strong> You effectively leverage your network to shield your team from unnecessary bureaucracy and secure the resources they need to excel.
+                        </div>
+                        <div class="feedback-message development-message" id="q7_development">
+                            <strong>Area for development:</strong> Work on becoming a more effective advocate for your team. Use your relationships to remove obstacles and secure resources.
+                        </div>
+                        <div class="tip-section" id="q7_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Your network should serve your team's success, not just your own. Regularly ask your team: "What obstacles can I remove?" and "What resources do you need?" Then use your relationships to deliver solutions. This builds tremendous loyalty and trust.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <div class="section-title">Manage Your Team</div>
+
+                    <div class="question">
+                        <h4>8. Do you foster a collaborative team environment?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q8_1" name="q8" value="1">
+                                <label for="q8_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q8_2" name="q8" value="2">
+                                <label for="q8_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q8_3" name="q8" value="3">
+                                <label for="q8_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q8_4" name="q8" value="4">
+                                <label for="q8_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q8_5" name="q8" value="5">
+                                <label for="q8_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q8_strength">
+                            <strong>This is a strength if:</strong> You create an environment where team members work together effectively, share knowledge freely, and support each other's success.
+                        </div>
+                        <div class="feedback-message development-message" id="q8_development">
+                            <strong>Area for development:</strong> Focus on breaking down silos and encouraging cross-functional collaboration. Create more opportunities for team members to work together.
+                        </div>
+                        <div class="tip-section" id="q8_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Model collaborative behavior by asking for input, sharing credit generously, and making team decisions transparently. Create regular opportunities for cross-training and joint problem-solving. Celebrate team wins, not just individual achievements.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>9. Do you effectively communicate vision and direction?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q9_1" name="q9" value="1">
+                                <label for="q9_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q9_2" name="q9" value="2">
+                                <label for="q9_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q9_3" name="q9" value="3">
+                                <label for="q9_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q9_4" name="q9" value="4">
+                                <label for="q9_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q9_5" name="q9" value="5">
+                                <label for="q9_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q9_strength">
+                            <strong>This is a strength if:</strong> Your team understands the bigger picture, knows how their work contributes to organizational goals, and feels motivated by the shared vision.
+                        </div>
+                        <div class="feedback-message development-message" id="q9_development">
+                            <strong>Area for development:</strong> Work on articulating a clear, compelling vision and connecting daily tasks to larger organizational objectives.
+                        </div>
+                        <div class="tip-section" id="q9_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Use storytelling to make your vision memorable and meaningful. Regularly connect individual tasks to the bigger picture by saying "Here's how your work on X helps us achieve Y." Repeat key messages frequently - people need to hear important information multiple times.</p>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h4>10. Do you develop and empower your team members?</h4>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" id="q10_1" name="q10" value="1">
+                                <label for="q10_1">1<br>Need to Make Progress</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q10_2" name="q10" value="2">
+                                <label for="q10_2">2<br>Below Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q10_3" name="q10" value="3">
+                                <label for="q10_3">3<br>Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q10_4" name="q10" value="4">
+                                <label for="q10_4">4<br>Above Average</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="q10_5" name="q10" value="5">
+                                <label for="q10_5">5<br>This is a Strength</label>
+                            </div>
+                        </div>
+                        <div class="feedback-message strength-message" id="q10_strength">
+                            <strong>This is a strength if:</strong> You actively invest in your team's growth, delegate meaningfully, and give people the autonomy to make decisions within their areas of responsibility.
+                        </div>
+                        <div class="feedback-message development-message" id="q10_development">
+                            <strong>Area for development:</strong> Focus more on coaching and developing your team members. Look for opportunities to delegate challenging assignments that promote growth.
+                        </div>
+                        <div class="tip-section" id="q10_tip">
+                            <h5>💡 Leadership Tip:</h5>
+                            <p>Ask each team member: "What's one skill you'd like to develop this year?" Then create opportunities for them to practice it. Delegate not just tasks, but decision-making authority. When people make mistakes, use them as coaching moments rather than reasons to take back control.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn" id="submitAssessment">Complete Assessment</button>
+                </div>
+            </div>
+
+            <div class="results" id="results">
+                <div class="results-summary">
+                    <h2>Your Leadership Assessment Results</h2>
+                    <p id="overallSummary">Thank you for completing the Three Imperatives Leadership Assessment. Your results provide insights into your current leadership capabilities across the three key areas.</p>
+                </div>
+
+                <div class="score-grid">
+                    <div class="score-card">
+                        <div class="score-value" id="manageYourselfScore">0</div>
+                        <div class="score-label">Manage Yourself</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="manageYourselfBar"></div>
+                        </div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="manageNetworkScore">0</div>
+                        <div class="score-label">Manage Your Network</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="manageNetworkBar"></div>
+                        </div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="manageTeamScore">0</div>
+                        <div class="score-label">Manage Your Team</div>
+                        <div class="score-bar">
+                            <div class="score-fill" id="manageTeamBar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insights" id="detailedInsights">
+                    <h3>Detailed Analysis</h3>
+                    <div id="insightContent"></div>
+                </div>
+
+                <div class="action-plan" id="actionPlan">
+                    <h4>Your Personalized Development Action Plan</h4>
+                    <div id="actionPlanContent"></div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn" id="downloadPDF">Download PDF Report</button>
+                    <button type="button" class="btn" id="retakeAssessment">Retake Assessment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-populate date
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'America/Los_Angeles'
+            };
+            document.getElementById('currentDate').textContent = currentDate.toLocaleDateString('en-US', options);
+        });
+
+        // Show feedback and tips when answers are selected
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const questionNum = this.name.substring(1);
+                const value = parseInt(this.value);
+                
+                // Hide all feedback for this question
+                const strengthMsg = document.getElementById(`q${questionNum}_strength`);
+                const developmentMsg = document.getElementById(`q${questionNum}_development`);
+                const tipMsg = document.getElementById(`q${questionNum}_tip`);
+                
+                strengthMsg.style.display = 'none';
+                developmentMsg.style.display = 'none';
+                tipMsg.style.display = 'none';
+                
+                // Show appropriate feedback
+                if (value >= 4) {
+                    strengthMsg.style.display = 'block';
+                } else {
+                    developmentMsg.style.display = 'block';
+                }
+                
+                // Always show tip
+                tipMsg.style.display = 'block';
+            });
+        });
+
+        // Assessment submission
+        document.getElementById('submitAssessment').addEventListener('click', function() {
+            const studentName = document.getElementById('studentName').value.trim();
+            if (!studentName) {
+                alert('Please enter your name before submitting.');
+                return;
+            }
+
+            // Check if all questions are answered
+            const totalQuestions = 10;
+            let answeredQuestions = 0;
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const radios = document.querySelectorAll(`input[name="q${i}"]`);
+                if (Array.from(radios).some(radio => radio.checked)) {
+                    answeredQuestions++;
+                }
+            }
+            
+            if (answeredQuestions < totalQuestions) {
+                alert(`Please answer all questions. You have answered ${answeredQuestions} out of ${totalQuestions} questions.`);
+                return;
+            }
+
+            // Calculate scores
+            calculateAndDisplayResults();
+        });
+
+        function calculateAndDisplayResults() {
+            // Calculate scores for each section
+            const manageYourselfQuestions = [1, 2, 3, 4];
+            const manageNetworkQuestions = [5, 6, 7];
+            const manageTeamQuestions = [8, 9, 10];
+            
+            const manageYourselfScore = calculateSectionScore(manageYourselfQuestions);
+            const manageNetworkScore = calculateSectionScore(manageNetworkQuestions);
+            const manageTeamScore = calculateSectionScore(manageTeamQuestions);
+            
+            // Display scores
+            document.getElementById('manageYourselfScore').textContent = manageYourselfScore.toFixed(1);
+            document.getElementById('manageNetworkScore').textContent = manageNetworkScore.toFixed(1);
+            document.getElementById('manageTeamScore').textContent = manageTeamScore.toFixed(1);
+            
+            // Animate score bars
+            setTimeout(() => {
+                document.getElementById('manageYourselfBar').style.width = `${(manageYourselfScore / 5) * 100}%`;
+                document.getElementById('manageNetworkBar').style.width = `${(manageNetworkScore / 5) * 100}%`;
+                document.getElementById('manageTeamBar').style.width = `${(manageTeamScore / 5) * 100}%`;
+            }, 500);
+            
+            // Generate insights
+            generateInsights(manageYourselfScore, manageNetworkScore, manageTeamScore);
+            
+            // Generate action plan
+            generateActionPlan(manageYourselfScore, manageNetworkScore, manageTeamScore);
+            
+            // Show results
+            document.getElementById('assessmentForm').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateSectionScore(questionNumbers) {
+            let total = 0;
+            for (const qNum of questionNumbers) {
+                const checkedRadio = document.querySelector(`input[name="q${qNum}"]:checked`);
+                if (checkedRadio) {
+                    total += parseInt(checkedRadio.value);
+                }
+            }
+            return total / questionNumbers.length;
+        }
+
+        function generateInsights(selfScore, networkScore, teamScore) {
+            const scores = [
+                { name: 'Manage Yourself', score: selfScore, key: 'self' },
+                { name: 'Manage Your Network', score: networkScore, key: 'network' },
+                { name: 'Manage Your Team', score: teamScore, key: 'team' }
+            ];
+            
+            // Sort by score to identify strengths and areas for development
+            scores.sort((a, b) => b.score - a.score);
+            
+            const topStrength = scores[0];
+            const needsDevelopment = scores[2];
+            
+            let insightHTML = `
+                <div class="insight-section">
+                    <h4>🌟 Your Top Strength: ${topStrength.name}</h4>
+                    <p>With a score of ${topStrength.score.toFixed(1)}/5.0, this is your strongest leadership area.</p>
+                    ${getStrengthInsight(topStrength.key, topStrength.score)}
+                </div>
+                
+                <div class="insight-section">
+                    <h4>📈 Priority Development Area: ${needsDevelopment.name}</h4>
+                    <p>With a score of ${needsDevelopment.score.toFixed(1)}/5.0, this area offers the greatest opportunity for growth.</p>
+                    ${getDevelopmentInsight(needsDevelopment.key, needsDevelopment.score)}
+                </div>
+                
+                <div class="insight-section">
+                    <h4>💡 Overall Leadership Profile</h4>
+                    ${getOverallInsight(selfScore, networkScore, teamScore)}
+                </div>
+            `;
+            
+            document.getElementById('insightContent').innerHTML = insightHTML;
+        }
+
+        function generateActionPlan(selfScore, networkScore, teamScore) {
+            const actionItems = [];
+            
+            // Generate specific action items based on scores
+            if (selfScore < 3.5) {
+                actionItems.push({
+                    title: "Strengthen Self-Management",
+                    description: "Focus on building trust, using authority effectively, and developing ethical influence. Consider seeking feedback on your leadership style."
+                });
+            }
+            
+            if (networkScore < 3.5) {
+                actionItems.push({
+                    title: "Expand and Leverage Your Network",
+                    description: "Create a stakeholder map, schedule regular network maintenance activities, and focus on how you can serve others in your network."
+                });
+            }
+            
+            if (teamScore < 3.5) {
+                actionItems.push({
+                    title: "Enhance Team Leadership",
+                    description: "Work on vision communication, team development, and creating a more collaborative environment. Delegate more meaningfully."
+                });
+            }
+            
+            // Add universal development items
+            actionItems.push({
+                title: "Continuous Learning",
+                description: "Read leadership books, attend workshops, or find a mentor. Consider 360-degree feedback to gain additional perspectives."
+            });
+            
+            if (Math.max(selfScore, networkScore, teamScore) >= 4.0) {
+                actionItems.push({
+                    title: "Leverage Your Strengths",
+                    description: "Use your strongest area to help develop the others. Mentor others in your area of strength while learning from colleagues in your development areas."
+                });
+            }
+            
+            let actionHTML = '';
+            actionItems.forEach((item, index) => {
+                actionHTML += `
+                    <div class="priority-item">
+                        <h5>${index + 1}. ${item.title}</h5>
+                        <p>${item.description}</p>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('actionPlanContent').innerHTML = actionHTML;
+        }
+
+        function getStrengthInsight(key, score) {
+            const insights = {
+                self: `<ul>
+                    <li>You demonstrate strong self-awareness and ethical leadership</li>
+                    <li>People likely trust your intentions and competence</li>
+                    <li>You balance authority with influence effectively</li>
+                    <li>Continue modeling these behaviors for others</li>
+                </ul>`,
+                network: `<ul>
+                    <li>You understand the importance of strategic relationships</li>
+                    <li>You likely have good awareness of key stakeholders</li>
+                    <li>You use your network to benefit your team</li>
+                    <li>Consider mentoring others in networking skills</li>
+                </ul>`,
+                team: `<ul>
+                    <li>You create collaborative, empowering environments</li>
+                    <li>Your team likely feels supported and developed</li>
+                    <li>You communicate vision effectively</li>
+                    <li>Share your team leadership approaches with peers</li>
+                </ul>`
+            };
+            return insights[key];
+        }
+
+        function getDevelopmentInsight(key, score) {
+            const insights = {
+                self: `<ul>
+                    <li>Focus on building deeper trust with your team</li>
+                    <li>Practice using authority more judiciously</li>
+                    <li>Work on ethical decision-making frameworks</li>
+                    <li>Seek feedback on your leadership impact</li>
+                </ul>`,
+                network: `<ul>
+                    <li>Create a systematic approach to networking</li>
+                    <li>Schedule regular relationship maintenance time</li>
+                    <li>Focus more on how you can help others succeed</li>
+                    <li>Better leverage relationships to support your team</li>
+                </ul>`,
+                team: `<ul>
+                    <li>Work on communicating vision more clearly</li>
+                    <li>Create more opportunities for team collaboration</li>
+                    <li>Focus on developing and empowering team members</li>
+                    <li>Delegate more challenging assignments</li>
+                </ul>`
+            };
+            return insights[key];
+        }
+
+        function getOverallInsight(selfScore, networkScore, teamScore) {
+            const avgScore = (selfScore + networkScore + teamScore) / 3;
+            
+            if (avgScore >= 4.0) {
+                return `<p>You demonstrate strong leadership capabilities across all three imperatives. Your challenge now is to maintain these standards while helping others develop their leadership skills. Consider taking on stretch assignments or mentoring roles.</p>`;
+            } else if (avgScore >= 3.0) {
+                return `<p>You show solid foundational leadership skills with clear areas for focused development. Concentrate on your lowest-scoring area while maintaining your strengths. Consider seeking coaching or additional training in your development areas.</p>`;
+            } else {
+                return `<p>You're in the early stages of your leadership journey with significant opportunities for growth across multiple areas. Focus on building fundamental leadership skills through training, mentoring, and seeking feedback. Consider starting with your highest-scoring area to build confidence.</p>`;
+            }
+        }
+
+        // PDF Download functionality
+        document.getElementById('downloadPDF').addEventListener('click', function() {
+            generatePDFReport();
+        });
+
+        function generatePDFReport() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            
+            // Get student info and scores
+            const studentName = document.getElementById('studentName').value;
+            const currentDate = document.getElementById('currentDate').textContent;
+            const selfScore = document.getElementById('manageYourselfScore').textContent;
+            const networkScore = document.getElementById('manageNetworkScore').textContent;
+            const teamScore = document.getElementById('manageTeamScore').textContent;
+            
+            // Header
+            pdf.setFontSize(20);
+            pdf.setTextColor(40, 40, 40);
+            pdf.text('Three Imperatives Leadership Assessment', 20, 25);
+            
+            pdf.setFontSize(16);
+            pdf.setTextColor(102, 126, 234);
+            pdf.text('Individual Development Report', 20, 35);
+            
+            // Student Info
+            pdf.setFontSize(12);
+            pdf.setTextColor(80, 80, 80);
+            pdf.text(`Name: ${studentName}`, 20, 50);
+            pdf.text(`Assessment Date: ${currentDate}`, 20, 60);
+            
+            // Scores Section
+            pdf.setFontSize(14);
+            pdf.setTextColor(40, 40, 40);
+            pdf.text('Your Leadership Scores', 20, 80);
+            
+            pdf.setFontSize(11);
+            pdf.text('Manage Yourself:', 20, 95);
+            pdf.text(`${selfScore}/5.0`, 150, 95);
+            
+            pdf.text('Manage Your Network:', 20, 105);
+            pdf.text(`${networkScore}/5.0`, 150, 105);
+            
+            pdf.text('Manage Your Team:', 20, 115);
+            pdf.text(`${teamScore}/5.0`, 150, 115);
+            
+            // Performance Interpretation
+            pdf.setFontSize(14);
+            pdf.text('Performance Interpretation', 20, 135);
+            
+            pdf.setFontSize(10);
+            const interpretation = [
+                '5.0 - This is a Strength: You excel in this area and can mentor others',
+                '4.0 - Above Average: Strong performance with minor refinement opportunities',
+                '3.0 - Average: Solid foundation with clear development opportunities',
+                '2.0 - Below Average: Requires focused development and practice',
+                '1.0 - Need to Make Progress: Significant development needed in this area'
+            ];
+            
+            let yPos = 145;
+            interpretation.forEach(line => {
+                pdf.text(line, 20, yPos);
+                yPos += 8;
+            });
+            
+            // Key Insights Section
+            pdf.setFontSize(14);
+            pdf.text('Key Insights & Recommendations', 20, yPos + 15);
+            
+            pdf.setFontSize(10);
+            yPos += 25;
+            
+            // Manage Yourself insights
+            pdf.setFontSize(12);
+            pdf.setTextColor(102, 126, 234);
+            pdf.text('Manage Yourself', 20, yPos);
+            
+            pdf.setFontSize(9);
+            pdf.setTextColor(60, 60, 60);
+            yPos += 10;
+            const selfInsights = [
+                '• Use formal authority as a tool, not your primary influence method',
+                '• Build thoughtful professional relationships focused on team goals',
+                '• Earn trust through consistent competence and character',
+                '• Make ethical decisions by considering all stakeholders'
+            ];
+            
+            selfInsights.forEach(insight => {
+                pdf.text(insight, 25, yPos);
+                yPos += 7;
+            });
+            
+            // Add new page if needed
+            if (yPos > 250) {
+                pdf.addPage();
+                yPos = 30;
+            }
+            
+            // Manage Network insights
+            pdf.setFontSize(12);
+            pdf.setTextColor(102, 126, 234);
+            pdf.text('Manage Your Network', 20, yPos + 10);
+            
+            pdf.setFontSize(9);
+            pdf.setTextColor(60, 60, 60);
+            yPos += 20;
+            const networkInsights = [
+                '• Systematically identify and map key stakeholders',
+                '• Proactively build and maintain professional relationships',
+                '• Use your network to protect and resource your team',
+                '• Focus on providing value to others in your network'
+            ];
+            
+            networkInsights.forEach(insight => {
+                pdf.text(insight, 25, yPos);
+                yPos += 7;
+            });
+            
+            // Manage Team insights
+            pdf.setFontSize(12);
+            pdf.setTextColor(102, 126, 234);
+            pdf.text('Manage Your Team', 20, yPos + 10);
+            
+            pdf.setFontSize(9);
+            pdf.setTextColor(60, 60, 60);
+            yPos += 20;
+            const teamInsights = [
+                '• Foster collaboration and break down organizational silos',
+                '• Communicate vision clearly and connect work to purpose',
+                '• Develop team members through coaching and delegation',
+                '• Empower others to make decisions within their areas'
+            ];
+            
+            teamInsights.forEach(insight => {
+                pdf.text(insight, 25, yPos);
+                yPos += 7;
+            });
+            
+            // Action Plan
+            if (yPos > 220) {
+                pdf.addPage();
+                yPos = 30;
+            }
+            
+            pdf.setFontSize(14);
+            pdf.setTextColor(40, 40, 40);
+            pdf.text('30-Day Development Action Plan', 20, yPos + 15);
+            
+            pdf.setFontSize(10);
+            yPos += 25;
+            
+            const actionSteps = [
+                '1. Identify your lowest-scoring area and create specific improvement goals',
+                '2. Seek feedback from colleagues on your leadership effectiveness',
+                '3. Find a mentor or coach who excels in your development area',
+                '4. Read one leadership book focused on your growth area',
+                '5. Practice new behaviors and track progress weekly',
+                '6. Schedule monthly check-ins to assess development progress'
+            ];
+            
+            actionSteps.forEach(step => {
+                pdf.text(step, 20, yPos);
+                yPos += 10;
+            });
+            
+            // Footer
+            pdf.setFontSize(8);
+            pdf.setTextColor(120, 120, 120);
+            pdf.text('Three Imperatives Leadership Assessment - Individual Development Report', 20, pdf.internal.pageSize.height - 15);
+            pdf.text(`Generated on ${new Date().toLocaleDateString()}`, 20, pdf.internal.pageSize.height - 10);
+            
+            // Save the PDF
+            const fileName = `Leadership_Assessment_${studentName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+            pdf.save(fileName);
+        }
+
+        // Retake assessment
+        document.getElementById('retakeAssessment').addEventListener('click', function() {
+            // Clear all radio buttons
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // Hide all feedback messages
+            document.querySelectorAll('.feedback-message, .tip-section').forEach(msg => {
+                msg.style.display = 'none';
+            });
+            
+            // Show form, hide results
+            document.getElementById('assessmentForm').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
